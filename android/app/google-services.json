@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "513299499948",
+    "project_id": "lesson45-9e6ad",
+    "storage_bucket": "lesson45-9e6ad.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:513299499948:android:661b7de563e727ef3e0809",
+        "android_client_info": {
+          "package_name": "com.example.lesson_45"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0A5B9qfapNO_9ZX4GaduS-f3r5SZYjTY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:513299499948:android:c597033e15e850523e0809",
+        "android_client_info": {
+          "package_name": "com.example.quiz_app_with_animat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0A5B9qfapNO_9ZX4GaduS-f3r5SZYjTY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
