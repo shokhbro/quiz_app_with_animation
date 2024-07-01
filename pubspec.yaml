@@ -13,6 +13,8 @@ dependencies:
   cloud_firestore: ^5.0.2
   provider: ^6.1.2
   lottie: ^3.1.2
+  gap: ^3.0.1
+  firebase_auth: ^5.1.1
 
 dev_dependencies:
   flutter_test:
@@ -21,3 +23,13 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/lotties/
+  
+  fonts:
+    - family: Lato
+      fonts:
+        - asset: assets/fonts/Lato-Bold.ttf
+    
+  

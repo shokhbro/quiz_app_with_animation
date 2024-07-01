@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class QuizFirebaseService {
-  final _quizCOntorller = FirebaseFirestore.instance.collection('products');
+  final _quizCollection = FirebaseFirestore.instance.collection('quizs');
 
-  Stream<QuerySnapshot> getProduct() async* {
-    yield* _quizCOntorller.snapshots();
+  Stream<QuerySnapshot> getProducts() {
+    return _quizCollection.snapshots();
   }
 }

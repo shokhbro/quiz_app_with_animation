@@ -1,76 +1,92 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:quiz_app_with_animation/controllers/product_controller.dart';
-import 'package:quiz_app_with_animation/models/product.dart';
-import 'package:quiz_app_with_animation/views/widgets/pageviewbuilder_widget.dart';
+import 'package:gap/gap.dart';
+import 'package:quiz_app_with_animation/controllers/firebase_auth_controller.dart';
+import 'package:quiz_app_with_animation/views/screens/login_screen.dart';
+import 'package:quiz_app_with_animation/views/screens/quiz_screen.dart';
 
-class Homepage extends StatefulWidget {
-  const Homepage({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  State<Homepage> createState() => _HomepageState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomepageState extends State<Homepage> {
-  int currentIndex = 0;
-  Map<int, int> selectedAnswers = {};
+class _HomeScreenState extends State<HomeScreen> {
+  final firebaseAuthController = FirebaseAuthController();
 
-  void _nextQuestion() {
-    pagecontroller.nextPage(
-        duration: const Duration(seconds: 3), curve: Curves.easeIn);
+  void _logout() async {
+    await firebaseAuthController.logout();
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => const LoginScreen()),
+      (Route<dynamic> route) => false,
+    );
   }
 
-  final pagecontroller = PageController();
   @override
   Widget build(BuildContext context) {
-    final controller = context.read<Productcontroller>();
     return Scaffold(
-      backgroundColor: Colors.deepPurple.shade300,
-      body: SafeArea(
-        child: StreamBuilder(
-          stream: controller.list,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            if (snapshot.data == null) {
-              return const Center(
-                child: Text("Mahsulotlar mavjud emas"),
-              );
-            }
-            final products = snapshot.data!.docs;
-
-            return products.isEmpty
-                ? const Center(
-                    child: Text("Mahsulotlar mavjud emas"),
-                  )
-                : Center(
-                    child: PageView.builder(
-                      physics:
-                          const ScrollPhysics(parent: BouncingScrollPhysics()),
-                      itemCount: products.length,
-                      controller: pagecontroller,
-                      scrollDirection: Axis.vertical,
-                      itemBuilder: (context, index) {
-                        final product =
-                            Product.fromJson(snapshot.data!.docs[index]);
-                        final question = product.question;
-                        final answers = product.answers;
-                        int correctanswer = product.correct;
-
-                        return Pageviewbuilder(
-                            answers: answers,
-                            question: question,
-                            index: index,
-                            correct: correctanswer,
-                            nextquestion: _nextQuestion);
-                      },
-                    ),
-                  );
-          },
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+        backgroundColor: Colors.blue,
+        title: const Text(
+          "Home Screen",
+          style: TextStyle(
+            color: Colors.white,
+          ),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.logout,
+              color: Colors.white,
+            ),
+            onPressed: _logout,
+          ),
+        ],
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const Center(
+            child: Text(
+              "Welcome to Quiz App",
+              style: TextStyle(
+                fontFamily: 'Lato',
+                color: Colors.black,
+                fontSize: 20,
+              ),
+            ),
+          ),
+          const Gap(20),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (ctx) {
+                return const QuizScreen();
+              }));
+            },
+            child: Container(
+              width: 200,
+              height: 50,
+              decoration: BoxDecoration(
+                color: Colors.green,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: const Center(
+                child: Text(
+                  "Start Quiz",
+                  style: TextStyle(
+                    fontFamily: 'Lato',
+                    color: Colors.white,
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

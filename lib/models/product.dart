@@ -1,22 +1,19 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class Product {
-  String id;
-  String question;
-  List<dynamic> answers;
-  int correct;
-  Product(
-      {required this.id,
-      required this.answers,
-      required this.question,
-      required this.correct});
+  final String question;
+  final List<String> answers;
+  final int correct;
 
-  factory Product.fromJson(QueryDocumentSnapshot query) {
+  Product({
+    required this.question,
+    required this.answers,
+    required this.correct,
+  });
+
+  factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
-      id: query.id,
-      answers: query['answers'],
-      correct: query['correct'],
-      question: query['question'],
+      question: json['question'] as String,
+      answers: List<String>.from(json['answers']),
+      correct: json['correct'] as int,
     );
   }
 }

@@ -1,73 +1,91 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
-class Pageviewbuilder extends StatefulWidget {
+class PageviewBuilder extends StatefulWidget {
   final String question;
   final List<dynamic> answers;
   final int index;
   final int correct;
-  final Function nextquestion;
+  final VoidCallback nextQuestion;
 
-  Pageviewbuilder({
+  const PageviewBuilder({
     super.key,
     required this.answers,
     required this.question,
     required this.index,
-    required this.nextquestion,
+    required this.nextQuestion,
     required this.correct,
   });
 
   @override
-  State<Pageviewbuilder> createState() => _PageviewbuilderState();
+  State<PageviewBuilder> createState() => _PageviewBuilderState();
 }
 
-class _PageviewbuilderState extends State<Pageviewbuilder> {
-  Map<int, int> selectedAnswers = {};
-  bool isChecked = false;
+class _PageviewBuilderState extends State<PageviewBuilder> {
   int correctIndex = -1;
-  bool isTogri = false;
+  bool isCorrect = false;
+  bool isChecked = false;
 
-  void toggleCheck() {
-    isChecked = true;
-    setState(() {});
-  }
-
-  final pagecontroller = PageController();
+  List<String> options = ["A)", "B)", "C)", "D)"];
 
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text(
-          widget.question,
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 23),
+        Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Text(
+            widget.question,
+            style: const TextStyle(
+              fontFamily: 'Lato',
+              fontSize: 20,
+            ),
+          ),
         ),
         for (int i = 0; i < widget.answers.length; i++)
           ListTile(
+            leading: Text(
+              options[i],
+              style: const TextStyle(
+                fontFamily: 'Lato',
+                color: Colors.black,
+                fontSize: 18,
+              ),
+            ),
             title: Text(
               widget.answers[i],
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              style: const TextStyle(
+                fontFamily: 'Lato',
+                fontSize: 18,
+              ),
             ),
             trailing: IconButton(
               onPressed: () {
-                isChecked = true;
                 setState(() {
+                  isChecked = true;
                   correctIndex = i;
-                  isTogri = (i == widget.correct);
+                  isCorrect = (i == widget.correct);
                 });
-                widget.nextquestion();
+                widget.nextQuestion();
               },
               icon: i == correctIndex
-                  ? Icon(Icons.check_box)
-                  : Icon(Icons.check_box_outline_blank),
+                  ? const Icon(Icons.check_box)
+                  : const Icon(Icons.check_box_outline_blank),
             ),
           ),
         if (isChecked)
-          isTogri
-              ? Lottie.asset('assets/lotties/done.json',
-                  width: 200, height: 200)
-              : Lottie.asset('assets/lotties/incorrect.json',
-                  width: 100, height: 100),
+          isCorrect
+              ? Lottie.asset(
+                  'assets/lotties/done.json',
+                  width: 200,
+                  height: 200,
+                )
+              : Lottie.asset(
+                  'assets/lotties/incorrect.json',
+                  width: 100,
+                  height: 100,
+                ),
       ],
     );
   }
